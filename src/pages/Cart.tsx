@@ -66,7 +66,7 @@ const Cart = () => {
   return (
     <>
       <Helmet>
-        <title>Cart ({cart.length} items) - JT&Co Crackers</title>
+        <title>{`Cart (${cart.length} items) - JT&Co Crackers`}</title>
         <meta name="description" content="Review and checkout your cracker order from JT&Co." />
       </Helmet>
 
