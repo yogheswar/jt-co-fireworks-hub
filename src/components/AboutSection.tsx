@@ -1,6 +1,15 @@
 import { Award, Shield, Truck, Heart } from 'lucide-react';
+import { useScrollAnimation, useParallax } from '@/hooks/useScrollAnimation';
+import groundSpinner from '@/assets/ground-spinner.jpg';
+import sparklers from '@/assets/sparklers.jpg';
 
 const AboutSection = () => {
+  const scrollY = useParallax();
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: timelineRef, isVisible: timelineVisible } = useScrollAnimation();
+  const { ref: featuresRef, isVisible: featuresVisible } = useScrollAnimation();
+  const { ref: imageRef, isVisible: imageVisible } = useScrollAnimation();
+
   const features = [
     {
       icon: Award,
@@ -25,10 +34,15 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="py-20 md:py-32 bg-background">
+    <section id="about" className="py-20 md:py-32 bg-background overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div 
+          ref={headerRef}
+          className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-1000 ${
+            headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <span className="font-body text-sm font-medium text-muted-foreground tracking-widest uppercase">
             Our Story
           </span>
@@ -42,41 +56,105 @@ const AboutSection = () => {
           </p>
         </div>
 
-        {/* History Timeline */}
-        <div className="max-w-4xl mx-auto mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6 border border-border rounded-lg hover:shadow-lg transition-shadow">
-              <span className="font-display text-4xl font-bold text-foreground">1985</span>
-              <h3 className="font-display text-lg font-semibold mt-2">The Beginning</h3>
-              <p className="font-body text-sm text-muted-foreground mt-2">
-                Started as a small workshop with just 5 workers
-              </p>
+        {/* Parallax Image Gallery */}
+        <div 
+          ref={imageRef}
+          className={`relative mb-20 transition-all duration-1000 delay-200 ${
+            imageVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+          }`}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto perspective-1000">
+            {/* 3D Card 1 */}
+            <div 
+              className="group relative h-80 rounded-2xl overflow-hidden shadow-2xl transform-gpu transition-all duration-500 hover:scale-[1.02]"
+              style={{ 
+                transform: `perspective(1000px) rotateY(${Math.max(-5, Math.min(5, (scrollY - 400) * 0.02))}deg) rotateX(${Math.max(-3, Math.min(3, (scrollY - 400) * 0.01))}deg)` 
+              }}
+            >
+              <img 
+                src={groundSpinner}
+                alt="Traditional ground spinner chakra with colorful sparks"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <h3 className="font-display text-2xl font-bold text-white drop-shadow-lg">Ground Spinners</h3>
+                <p className="font-body text-sm text-white/80 mt-1">Traditional chakras with mesmerizing colors</p>
+              </div>
+              {/* Glow effect on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-primary/20 to-transparent" />
             </div>
-            <div className="text-center p-6 border border-border rounded-lg hover:shadow-lg transition-shadow">
-              <span className="font-display text-4xl font-bold text-foreground">2000</span>
-              <h3 className="font-display text-lg font-semibold mt-2">Expansion</h3>
-              <p className="font-body text-sm text-muted-foreground mt-2">
-                Opened our first retail outlet and expanded production
-              </p>
-            </div>
-            <div className="text-center p-6 border border-border rounded-lg hover:shadow-lg transition-shadow">
-              <span className="font-display text-4xl font-bold text-foreground">2024</span>
-              <h3 className="font-display text-lg font-semibold mt-2">Digital Era</h3>
-              <p className="font-body text-sm text-muted-foreground mt-2">
-                Launching online store to serve customers across India
-              </p>
+
+            {/* 3D Card 2 */}
+            <div 
+              className="group relative h-80 rounded-2xl overflow-hidden shadow-2xl transform-gpu transition-all duration-500 hover:scale-[1.02]"
+              style={{ 
+                transform: `perspective(1000px) rotateY(${Math.max(-5, Math.min(5, -(scrollY - 400) * 0.02))}deg) rotateX(${Math.max(-3, Math.min(3, (scrollY - 400) * 0.01))}deg)` 
+              }}
+            >
+              <img 
+                src={sparklers}
+                alt="Golden sparklers lighting up festive celebration"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <h3 className="font-display text-2xl font-bold text-white drop-shadow-lg">Sparklers</h3>
+                <p className="font-body text-sm text-white/80 mt-1">Safe and beautiful for all ages</p>
+              </div>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-primary/20 to-transparent" />
             </div>
           </div>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* History Timeline with 3D effect */}
+        <div 
+          ref={timelineRef}
+          className={`max-w-4xl mx-auto mb-20 transition-all duration-1000 delay-300 ${
+            timelineVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { year: '1985', title: 'The Beginning', desc: 'Started as a small workshop with just 5 workers' },
+              { year: '2000', title: 'Expansion', desc: 'Opened our first retail outlet and expanded production' },
+              { year: '2024', title: 'Digital Era', desc: 'Launching online store to serve customers across India' }
+            ].map((item, index) => (
+              <div 
+                key={index}
+                className="group text-center p-6 border border-border rounded-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-2 transform-gpu bg-card"
+                style={{ 
+                  animationDelay: `${index * 0.2}s`,
+                  transform: timelineVisible ? 'perspective(500px) rotateX(0deg)' : 'perspective(500px) rotateX(10deg)'
+                }}
+              >
+                <span className="font-display text-4xl font-bold text-primary group-hover:scale-110 inline-block transition-transform duration-300">
+                  {item.year}
+                </span>
+                <h3 className="font-display text-lg font-semibold mt-2">{item.title}</h3>
+                <p className="font-body text-sm text-muted-foreground mt-2">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Features Grid with staggered 3D animation */}
+        <div 
+          ref={featuresRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className="group p-6 bg-card border border-border rounded-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className={`group p-6 bg-card border border-border rounded-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-2 transform-gpu ${
+                featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+              style={{ 
+                transitionDelay: `${index * 100}ms`,
+                transform: featuresVisible ? 'perspective(500px) rotateY(0deg)' : `perspective(500px) rotateY(${index % 2 === 0 ? 10 : -10}deg)`
+              }}
             >
-              <div className="w-12 h-12 bg-foreground text-background rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-foreground text-background rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                 <feature.icon className="w-6 h-6" />
               </div>
               <h3 className="font-display text-xl font-semibold text-foreground">{feature.title}</h3>
