@@ -104,7 +104,7 @@ const Navbar = () => {
 
             {/* Admin */}
             <a
-              href="http://localhost:8080/"
+              href="https://jt-co-fireworks-hub-ee8w.vercel.app/"
               target="_blank"
               rel="noreferrer"
               className="hidden md:block"
@@ -158,15 +158,16 @@ const Navbar = () => {
 
               {/* Admin */}
               <a
-                href="http://localhost:8080/"
+                href="https://jt-co-fireworks-hub-3cev.vercel.app/"
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => setIsOpen(false)}
+                className="hidden md:block"
               >
-                <Button variant="outline" size="sm" className="w-full">
-                  Admin Dashboard
+                <Button variant="outline" size="sm">
+                  Admin
                 </Button>
               </a>
+
 
             </div>
           </div>
