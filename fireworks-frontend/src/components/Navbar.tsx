@@ -23,6 +23,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
+          
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-foreground group-hover:rotate-12 transition-transform duration-300" />
@@ -51,6 +52,7 @@ const Navbar = () => {
 
           {/* Cart & Admin */}
           <div className="flex items-center gap-4">
+            {/* Cart */}
             <Link to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="w-5 h-5" />
@@ -62,11 +64,17 @@ const Navbar = () => {
               </Button>
             </Link>
 
-            <Link to="/admin" className="hidden md:block">
+            {/* Desktop Admin Button */}
+            <a
+              href="http://localhost:8080/"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden md:block"
+            >
               <Button variant="outline" size="sm">
                 Admin
               </Button>
-            </Link>
+            </a>
 
             {/* Mobile Menu Toggle */}
             <Button
@@ -97,11 +105,18 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Link to="/admin" onClick={() => setIsOpen(false)}>
+
+              {/* Mobile Admin Button (FIXED) */}
+              <a
+                href="http://localhost:8080/"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setIsOpen(false)}
+              >
                 <Button variant="outline" size="sm" className="w-full">
                   Admin Dashboard
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         )}
