@@ -3,8 +3,9 @@ import { Button } from '@/components/ui/button';
 
 const ContactSection = () => {
   return (
-    <section className="py-20 md:py-32 bg-background">
+    <section id="contact" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="font-body text-sm font-medium text-muted-foreground tracking-widest uppercase">
@@ -19,7 +20,8 @@ const ContactSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Map Placeholder */}
+
+          {/* Map */}
           <div className="bg-muted rounded-xl overflow-hidden aspect-video lg:aspect-auto lg:h-full min-h-[400px] relative">
             <div className="absolute inset-0 flex items-center justify-center bg-foreground/5">
               <div className="text-center p-8">
@@ -46,7 +48,7 @@ const ContactSection = () => {
 
           {/* Contact Info */}
           <div className="space-y-8">
-            {/* Address */}
+
             <div className="flex gap-4 p-6 bg-card border border-border rounded-xl hover:shadow-lg transition-shadow">
               <div className="w-12 h-12 bg-foreground text-background rounded-lg flex items-center justify-center flex-shrink-0">
                 <MapPin className="w-6 h-6" />
@@ -61,7 +63,6 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* Phone */}
             <div className="flex gap-4 p-6 bg-card border border-border rounded-xl hover:shadow-lg transition-shadow">
               <div className="w-12 h-12 bg-foreground text-background rounded-lg flex items-center justify-center flex-shrink-0">
                 <Phone className="w-6 h-6" />
@@ -75,7 +76,6 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* Email */}
             <div className="flex gap-4 p-6 bg-card border border-border rounded-xl hover:shadow-lg transition-shadow">
               <div className="w-12 h-12 bg-foreground text-background rounded-lg flex items-center justify-center flex-shrink-0">
                 <Mail className="w-6 h-6" />
@@ -89,7 +89,6 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* Hours */}
             <div className="flex gap-4 p-6 bg-card border border-border rounded-xl hover:shadow-lg transition-shadow">
               <div className="w-12 h-12 bg-foreground text-background rounded-lg flex items-center justify-center flex-shrink-0">
                 <Clock className="w-6 h-6" />
@@ -105,7 +104,9 @@ const ContactSection = () => {
                 </div>
               </div>
             </div>
+
           </div>
+
         </div>
       </div>
     </section>

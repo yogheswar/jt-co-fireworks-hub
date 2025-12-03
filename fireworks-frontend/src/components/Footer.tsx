@@ -6,6 +6,7 @@ const Footer = () => {
     <footer className="bg-foreground text-background">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -21,12 +22,31 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-display text-lg font-semibold">Quick Links</h4>
             <div className="flex flex-col gap-2">
+
               <Link to="/" className="text-background/70 hover:text-background transition-colors font-body text-sm">
                 Home
               </Link>
+
               <Link to="/products" className="text-background/70 hover:text-background transition-colors font-body text-sm">
                 Products
               </Link>
+
+              {/* ⭐ New: About link */}
+              <a
+                href="/#about"
+                className="text-background/70 hover:text-background transition-colors font-body text-sm"
+              >
+                About
+              </a>
+
+              {/* ⭐ New: Contact link */}
+              <a
+                href="/#contact"
+                className="text-background/70 hover:text-background transition-colors font-body text-sm"
+              >
+                Contact
+              </a>
+
               <Link to="/cart" className="text-background/70 hover:text-background transition-colors font-body text-sm">
                 Cart
               </Link>
@@ -43,10 +63,12 @@ const Footer = () => {
                   123, Cracker Street, Sivakasi, Tamil Nadu - 626123
                 </span>
               </div>
+
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 flex-shrink-0" />
                 <span className="text-background/70 font-body text-sm">+91 98765 43210</span>
               </div>
+
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 flex-shrink-0" />
                 <span className="text-background/70 font-body text-sm">info@jtco-crackers.com</span>
@@ -69,6 +91,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
+
         </div>
 
         <div className="border-t border-background/20 mt-12 pt-8">

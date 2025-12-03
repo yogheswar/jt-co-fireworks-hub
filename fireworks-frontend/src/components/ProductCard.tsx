@@ -1,7 +1,7 @@
 import { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
-import { ShoppingCart, Sparkles } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface ProductCardProps {
@@ -27,10 +27,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
       }}
     >
       {/* IMAGE AREA */}
-      <div className="aspect-square bg-muted relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Sparkles className="w-16 h-16 text-muted-foreground/30" />
-        </div>
+      <div className="aspect-square relative overflow-hidden bg-muted">
+
+        {/* REAL PRODUCT IMAGE */}
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              "https://via.placeholder.com/300?text=No+Image";
+          }}
+        />
 
         {/* CATEGORY BADGE */}
         <span className="absolute top-3 left-3 bg-black/80 text-white text-xs px-3 py-1 rounded-full">
@@ -38,7 +46,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </span>
 
         {/* GRADIENT OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
       </div>
 
       {/* CONTENT */}
@@ -53,11 +61,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="text-xl font-bold text-primary">
-            ₹{product.price}
-          </span>
+          <span className="text-xl font-bold text-primary">₹{product.price}</span>
+
           <span className="text-xs text-muted-foreground">
-            {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+            {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
           </span>
         </div>
 

@@ -11,19 +11,21 @@ const Navbar = () => {
   const location = useLocation();
   const cartCount = getCartCount();
 
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/products', label: 'Products' },
-    { path: '/cart', label: 'Cart' },
-  ];
-
   const isActive = (path: string) => location.pathname === path;
+
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsOpen(false);
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          
+
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-foreground group-hover:rotate-12 transition-transform duration-300" />
@@ -34,25 +36,61 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={cn(
-                  "font-body text-sm font-medium tracking-wide transition-all duration-300 hover:text-foreground relative",
-                  isActive(link.path)
-                    ? "text-foreground after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-foreground"
-                    : "text-muted-foreground"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+
+            {/* Home */}
+            <Link
+              to="/"
+              className={cn(
+                "font-body text-sm font-medium tracking-wide transition-all duration-300 hover:text-foreground relative",
+                isActive("/") ? "text-foreground after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-foreground" : "text-muted-foreground"
+              )}
+            >
+              Home
+            </Link>
+
+            {/* About */}
+            <button
+              onClick={() => scrollToSection("about")}
+              className="font-body text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              About
+            </button>
+            {/* Contact */}
+            <button
+              onClick={() => scrollToSection("contact")}
+              className="font-body text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Contact
+            </button>
+
+            {/* Products */}
+            <Link
+              to="/products"
+              className={cn(
+                "font-body text-sm font-medium tracking-wide transition-all duration-300 hover:text-foreground relative",
+                isActive("/products") ? "text-foreground after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-foreground" : "text-muted-foreground"
+              )}
+            >
+              Products
+            </Link>
+
+            {/* Cart */}
+            <Link
+              to="/cart"
+              className={cn(
+                "font-body text-sm font-medium tracking-wide transition-all duration-300 hover:text-foreground relative",
+                isActive("/cart") ? "text-foreground after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-foreground" : "text-muted-foreground"
+              )}
+            >
+              Cart
+            </Link>
+
           </div>
 
-          {/* Cart & Admin */}
+          {/* Cart + Admin */}
           <div className="flex items-center gap-4">
-            {/* Cart */}
+
+            {/* Cart Icon */}
             <Link to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="w-5 h-5" />
@@ -64,7 +102,7 @@ const Navbar = () => {
               </Button>
             </Link>
 
-            {/* Desktop Admin Button */}
+            {/* Admin */}
             <a
               href="http://localhost:8080/"
               target="_blank"
@@ -92,21 +130,33 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden py-4 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "font-body text-base font-medium py-2 transition-colors",
-                    isActive(link.path) ? "text-foreground" : "text-muted-foreground"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
 
-              {/* Mobile Admin Button (FIXED) */}
+              {/* Home */}
+              <Link to="/" onClick={() => setIsOpen(false)} className="font-body text-base text-muted-foreground hover:text-foreground">
+                Home
+              </Link>
+
+              {/* About */}
+              <button onClick={() => scrollToSection("about")} className="text-left font-body text-base text-muted-foreground hover:text-foreground">
+                About
+              </button>
+
+              {/* Products */}
+              <Link to="/products" onClick={() => setIsOpen(false)} className="font-body text-base text-muted-foreground hover:text-foreground">
+                Products
+              </Link>
+
+              {/* Contact */}
+              <button onClick={() => scrollToSection("contact")} className="text-left font-body text-base text-muted-foreground hover:text-foreground">
+                Contact
+              </button>
+
+              {/* Cart */}
+              <Link to="/cart" onClick={() => setIsOpen(false)} className="font-body text-base text-muted-foreground hover:text-foreground">
+                Cart
+              </Link>
+
+              {/* Admin */}
               <a
                 href="http://localhost:8080/"
                 target="_blank"
@@ -117,6 +167,7 @@ const Navbar = () => {
                   Admin Dashboard
                 </Button>
               </a>
+
             </div>
           </div>
         )}
