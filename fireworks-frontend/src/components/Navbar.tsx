@@ -37,7 +37,6 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
 
-            {/* Home */}
             <Link
               to="/"
               className={cn(
@@ -48,14 +47,13 @@ const Navbar = () => {
               Home
             </Link>
 
-            {/* About */}
             <button
               onClick={() => scrollToSection("about")}
               className="font-body text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               About
             </button>
-            {/* Contact */}
+
             <button
               onClick={() => scrollToSection("contact")}
               className="font-body text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -63,7 +61,6 @@ const Navbar = () => {
               Contact
             </button>
 
-            {/* Products */}
             <Link
               to="/products"
               className={cn(
@@ -74,7 +71,6 @@ const Navbar = () => {
               Products
             </Link>
 
-            {/* Cart */}
             <Link
               to="/cart"
               className={cn(
@@ -90,7 +86,6 @@ const Navbar = () => {
           {/* Cart + Admin */}
           <div className="flex items-center gap-4">
 
-            {/* Cart Icon */}
             <Link to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="w-5 h-5" />
@@ -102,9 +97,9 @@ const Navbar = () => {
               </Button>
             </Link>
 
-            {/* Admin */}
+            {/* FIXED ADMIN BUTTON */}
             <a
-              href="https://jt-co-fireworks-hub-ee8w.vercel.app/"
+              href="https://jt-co-fireworks-hub-3cev.vercel.app/"
               target="_blank"
               rel="noreferrer"
               className="hidden md:block"
@@ -114,7 +109,6 @@ const Navbar = () => {
               </Button>
             </a>
 
-            {/* Mobile Menu Toggle */}
             <Button
               variant="ghost"
               size="icon"
@@ -131,43 +125,36 @@ const Navbar = () => {
           <div className="md:hidden py-4 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-4">
 
-              {/* Home */}
               <Link to="/" onClick={() => setIsOpen(false)} className="font-body text-base text-muted-foreground hover:text-foreground">
                 Home
               </Link>
 
-              {/* About */}
               <button onClick={() => scrollToSection("about")} className="text-left font-body text-base text-muted-foreground hover:text-foreground">
                 About
               </button>
 
-              {/* Products */}
               <Link to="/products" onClick={() => setIsOpen(false)} className="font-body text-base text-muted-foreground hover:text-foreground">
                 Products
               </Link>
 
-              {/* Contact */}
               <button onClick={() => scrollToSection("contact")} className="text-left font-body text-base text-muted-foreground hover:text-foreground">
                 Contact
               </button>
 
-              {/* Cart */}
               <Link to="/cart" onClick={() => setIsOpen(false)} className="font-body text-base text-muted-foreground hover:text-foreground">
                 Cart
               </Link>
 
-              {/* Admin */}
+              {/* FIXED MOBILE ADMIN BUTTON */}
               <a
                 href="https://jt-co-fireworks-hub-3cev.vercel.app/"
                 target="_blank"
                 rel="noreferrer"
-                className="hidden md:block"
               >
-                <Button variant="outline" size="sm">
-                  Admin
+                <Button variant="outline" size="sm" className="w-full">
+                  Admin Dashboard
                 </Button>
               </a>
-
 
             </div>
           </div>
