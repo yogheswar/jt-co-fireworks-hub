@@ -1,6 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -22,29 +19,25 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* User Routes */}
-          <Route path="/" element={<Index />} />
+    <BrowserRouter>
+      <Routes>
+        {/* User Routes */}
+        <Route path="/" element={<Index />} />
 
-          {/* Admin Routes */}
-          <Route path="/admin" element={<Login />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/products" element={<Products />} />
-          <Route path="/admin/products/add" element={<AddProduct />} />
-          <Route path="/admin/products/edit/:id" element={<EditProduct />} />
-          <Route path="/admin/orders" element={<Orders />} />
-          <Route path="/admin/categories" element={<Categories />} />
-          <Route path="/admin/settings" element={<Settings />} />
+        {/* Admin Routes */}
+        <Route path="/admin" element={<Login />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/products" element={<Products />} />
+        <Route path="/admin/products/add" element={<AddProduct />} />
+        <Route path="/admin/products/edit/:id" element={<EditProduct />} />
+        <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/admin/categories" element={<Categories />} />
+        <Route path="/admin/settings" element={<Settings />} />
 
-          {/* Not found */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+        {/* Not found */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
