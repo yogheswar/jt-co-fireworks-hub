@@ -97,10 +97,10 @@ const Footer = () => {
         <div className="border-t border-background/20 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/60 font-body text-sm">
-              © 2024 JT&Co Crackers. All rights reserved.
+              © 2025 JT&Co Crackers. All rights reserved.
             </p>
             <p className="text-background/60 font-body text-sm">
-              Made with ❤️ in Sivakasi
+              Made with Yoghes❤️ in Sivakasi
             </p>
           </div>
         </div>
