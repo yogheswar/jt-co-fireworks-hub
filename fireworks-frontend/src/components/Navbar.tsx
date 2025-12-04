@@ -27,7 +27,7 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* ⭐ CENTER → PERFECT CENTER MENU on DESKTOP ⭐ */}
+      
           <div className="hidden md:flex gap-10 absolute left-1/2 -translate-x-1/2">
 
             <Link
@@ -101,7 +101,7 @@ const Navbar = () => {
             <a
               href="https://jt-co-fireworks-hub-admin.vercel.app/"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hidden md:block"
             >
               <Button variant="outline" size="sm">Admin</Button>
@@ -137,7 +137,7 @@ const Navbar = () => {
               <a
                 href="https://jt-co-fireworks-hub-admin.vercel.app/"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
               >
                 <Button variant="outline" size="sm" className="w-full">
