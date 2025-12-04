@@ -21,30 +21,33 @@ const ContactSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-          {/* Map */}
-          <div className="bg-muted rounded-xl overflow-hidden aspect-video lg:aspect-auto lg:h-full min-h-[400px] relative">
-            <div className="absolute inset-0 flex items-center justify-center bg-foreground/5">
-              <div className="text-center p-8">
-                <MapPin className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-                <p className="font-display text-xl font-semibold text-foreground">JT&Co Crackers</p>
-                <p className="font-body text-muted-foreground mt-2">
-                  123, Cracker Street, Sivakasi<br />
-                  Tamil Nadu - 626123
-                </p>
-                <a 
-                  href="https://maps.google.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-block mt-4"
-                >
-                  <Button variant="outline" size="sm">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Open in Maps
-                  </Button>
-                </a>
-              </div>
-            </div>
-          </div>
+          {/* Map (Mobile friendly) */}
+<div className="w-full bg-muted rounded-xl overflow-hidden min-h-[220px] sm:min-h-[300px] flex items-center justify-center">
+  <div className="text-center p-4">
+    <MapPin className="w-12 h-12 text-muted-foreground/40 mx-auto mb-3" />
+
+    <p className="font-display text-lg font-semibold text-foreground">
+      JT&Co Crackers
+    </p>
+
+    <p className="font-body text-sm text-muted-foreground mt-1 leading-relaxed">
+      123, Cracker Street, Sivakasi <br />
+      Tamil Nadu – 626123
+    </p>
+
+    <a
+      href="https://maps.google.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-block mt-3"
+    >
+      <Button variant="outline" size="sm">
+        <ExternalLink className="w-4 h-4 mr-2" />
+        Open in Maps
+      </Button>
+    </a>
+  </div>
+</div>
 
           {/* Contact Info */}
           <div className="space-y-8">

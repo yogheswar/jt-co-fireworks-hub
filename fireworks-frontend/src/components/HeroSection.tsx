@@ -8,146 +8,112 @@ const HeroSection = () => {
   const scrollY = useParallax();
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Parallax Background Image */}
-      <div 
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+      {/* Background */}
+      <div
         className="absolute inset-0 z-0"
-        style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+        style={{ transform: `translateY(${scrollY * 0.3}px)` }}
       >
-        <img 
-          src={fireworksHero} 
-          alt="Colorful Diwali fireworks lighting up the night sky"
-          className="w-full h-[120%] object-cover"
+        <img
+          src={fireworksHero}
+          alt="Colorful fireworks"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      {/* 3D Floating Elements */}
-      <div className="absolute inset-0 z-[1] perspective-1000">
-        <div 
+      {/* ✨ Floating Decorations (HIDDEN on mobile) */}
+      <div className="hidden md:block absolute inset-0 z-[1] perspective-1000">
+        <div
           className="absolute top-20 left-10 w-32 h-32 border border-primary/30 rounded-full animate-float"
-          style={{ 
-            transform: `translateZ(50px) rotateX(${scrollY * 0.1}deg) rotateY(${scrollY * 0.05}deg)`,
-            animationDelay: '0s'
-          }} 
+          style={{
+            transform: `translateZ(50px) rotateX(${scrollY * 0.1}deg) rotateY(${scrollY * 0.05}deg)`
+          }}
         />
-        <div 
+        <div
           className="absolute top-40 right-20 w-24 h-24 border border-primary/30 rounded-full animate-float"
-          style={{ 
-            transform: `translateZ(30px) rotateX(${-scrollY * 0.08}deg)`,
-            animationDelay: '1s' 
-          }} 
+          style={{
+            transform: `translateZ(30px) rotateX(${-scrollY * 0.08}deg)`
+          }}
         />
-        <div 
-          className="absolute bottom-40 left-1/4 w-16 h-16 bg-primary/20 rounded-full animate-float blur-sm"
-          style={{ 
-            transform: `translateZ(80px) translateY(${-scrollY * 0.2}px)`,
-            animationDelay: '2s' 
-          }} 
-        />
-        <div 
-          className="absolute bottom-20 right-1/3 w-20 h-20 border-2 border-primary/40 rounded-full animate-float"
-          style={{ 
-            transform: `translateZ(60px) scale(${1 + scrollY * 0.0005})`,
-            animationDelay: '0.5s' 
-          }} 
-        />
-        {/* Sparkle particles */}
-        <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-        <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-orange-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute bottom-1/3 left-1/2 w-2 h-2 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      <div className="container mx-auto px-4 pt-20 relative z-10">
-        <div 
-          className="max-w-4xl mx-auto text-center"
-          style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+      {/* Content */}
+      <div className="relative z-10 w-full px-4 pt-24">
+        <div
+          className="max-w-3xl mx-auto text-center"
+          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
         >
-          {/* Badge with 3D effect */}
-          <div 
-            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-8 animate-fade-in transform-gpu hover:scale-105 transition-transform duration-300 shadow-lg"
-            style={{ transform: `perspective(500px) rotateX(${Math.min(scrollY * 0.02, 5)}deg)` }}
-          >
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6 shadow-lg">
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="font-body text-sm text-white">Since 1985 • Sivakasi</span>
           </div>
 
-          {/* Main Heading with 3D text effect */}
-          <h1 
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight animate-slide-up drop-shadow-2xl"
-            style={{ 
-              textShadow: '0 4px 8px rgba(0,0,0,0.5), 0 8px 16px rgba(0,0,0,0.3)',
-              transform: `perspective(1000px) rotateX(${Math.min(scrollY * 0.01, 3)}deg)`
-            }}
+          {/* Title */}
+          <h1
+            className="font-display text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-tight drop-shadow-2xl"
           >
             JT&Co
-            <span className="block text-3xl md:text-5xl lg:text-6xl mt-2 font-normal text-primary drop-shadow-lg">
+            <span className="block text-2xl sm:text-3xl md:text-5xl mt-2 font-normal text-primary">
               Crackers
             </span>
           </h1>
 
-          {/* Tagline */}
-          <p 
-            className="font-body text-lg md:text-xl text-white/90 mt-6 max-w-2xl mx-auto animate-slide-up drop-shadow-md" 
-            style={{ animationDelay: '0.2s' }}
-          >
-            Celebrate every moment with Sivakasi's finest quality crackers. 
+          {/* Subtext */}
+          <p className="font-body text-base sm:text-lg text-white/90 mt-5 max-w-xl mx-auto drop-shadow-md">
+            Celebrate every moment with Sivakasi's finest quality crackers.
             Trusted by families for over 38 years.
           </p>
 
-          {/* CTA Buttons with 3D hover effect */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
             <Link to="/products">
-              <Button 
-                variant="hero" 
-                size="xl" 
-                className="group transform-gpu hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-primary/30"
+              <Button
+                variant="hero"
+                size="lg"
+                className="group shadow-xl hover:shadow-primary/30 transition-all"
               >
                 Shop Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
+
             <a href="#about">
-              <Button 
-                variant="elegant" 
-                size="xl" 
-                className="border-white/30 text-white hover:bg-white hover:text-foreground transform-gpu hover:scale-105 hover:-translate-y-1 transition-all duration-300 backdrop-blur-sm"
+              <Button
+                variant="elegant"
+                size="lg"
+                className="text-white border-white/40 hover:bg-white hover:text-black"
               >
                 Our Story
               </Button>
             </a>
           </div>
 
-          {/* Stats with 3D cards */}
-          <div 
-            className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-white/20 animate-fade-in" 
-            style={{ animationDelay: '0.6s' }}
-          >
+          {/* Stats (STACK on mobile, 3-col on desktop) */}
+          <div className="grid grid-cols-3 gap-6 mt-14 pt-6 border-t border-white/20">
             {[
-              { value: '38+', label: 'Years Experience' },
+              { value: '38+', label: 'Years' },
               { value: '500+', label: 'Products' },
-              { value: '1M+', label: 'Happy Customers' }
+              { value: '1M+', label: 'Customers' }
             ].map((stat, index) => (
-              <div 
-                key={index}
-                className="group transform-gpu hover:scale-110 transition-all duration-300 cursor-default"
-                style={{ 
-                  transform: `perspective(500px) rotateY(${(index - 1) * 5}deg)`,
-                }}
-              >
-                <span className="font-display text-3xl md:text-4xl font-bold text-white group-hover:text-primary transition-colors drop-shadow-lg">
+              <div key={index} className="text-center">
+                <span className="font-display text-2xl sm:text-3xl font-bold text-white">
                   {stat.value}
                 </span>
-                <p className="font-body text-sm text-white/70 mt-1">{stat.label}</p>
+                <p className="font-body text-xs sm:text-sm text-white/70 mt-1">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator with glow effect */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center backdrop-blur-sm shadow-lg shadow-primary/20">
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce z-10">
+        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
           <div className="w-1 h-3 bg-primary rounded-full mt-2 animate-pulse" />
         </div>
       </div>
