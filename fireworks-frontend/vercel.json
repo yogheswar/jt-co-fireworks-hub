@@ -1,8 +1,9 @@
+
 {
   "rewrites": [
     {
       "source": "/admin/(.*)",
-      "destination": "/admin/index.html"
+      "destination": "https://jt-co-fireworks-admin.vercel.app/$1"
     }
   ]
 }

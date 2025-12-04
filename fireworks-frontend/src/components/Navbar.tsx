@@ -99,7 +99,7 @@ const Navbar = () => {
 
             {/* Admin Button */}
             <a
-              href="https://jt-co-fireworks-hub-3cev.vercel.app/"
+              href="https://jt-co-fireworks-hub-admin.vercel.app/"
               target="_blank"
               rel="noreferrer"
               className="hidden md:block"
