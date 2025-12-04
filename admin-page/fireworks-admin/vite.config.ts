@@ -3,9 +3,9 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig({
-  base: "/",                    // IMPORTANT
+  base: "/",
   build: {
-    outDir: "dist",             // IMPORTANT (Vercel looks for dist)
+    outDir: "dist",
     emptyOutDir: true
   },
   plugins: [react()],
