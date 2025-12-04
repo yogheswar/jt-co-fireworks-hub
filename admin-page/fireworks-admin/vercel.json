@@ -1,5 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "../../fireworks-frontend/public/admin",
+  "outputDirectory": "public/admin",
   "framework": "vite"
 }
