@@ -3,10 +3,10 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig({
-  base: "/admin/",
+  base: "/",                    // IMPORTANT
   build: {
-    outDir: path.resolve(__dirname, "../../fireworks-frontend/public/admin"),
-    emptyOutDir: true,
+    outDir: "dist",             // IMPORTANT (Vercel looks for dist)
+    emptyOutDir: true
   },
   plugins: [react()],
   resolve: {
