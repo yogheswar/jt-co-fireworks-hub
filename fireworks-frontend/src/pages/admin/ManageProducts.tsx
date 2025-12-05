@@ -1,50 +1,63 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { productApi } from "@/lib/api";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
-  const fetchProducts = async () => {
-    const res = await fetch("http://localhost:5000/api/products");
-    const data = await res.json();
+  const loadProducts = async () => {
+    const data = await productApi.getAll();
     setProducts(data);
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this product?")) return;
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this product?")) return;
-
-    const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+    await fetch(`https://jt-co-fireworks-hub-production-ac21.up.railway.app/api/products/${id}`, {
       method: "DELETE",
     });
 
-    if (res.ok) {
-      alert("Product deleted!");
-      setProducts(products.filter(p => p._id !== id));
-    } else {
-      const data = await res.json();
-      alert("Error: " + data.message);
-    }
+    loadProducts();
   };
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Manage Products</h1>
-      <div className="flex flex-col gap-4">
-        {products.map((p) => (
-          <div key={p._id} className="flex justify-between items-center border p-2 rounded">
+
+      <Button className="mb-4" onClick={() => navigate("/admin/products/add")}>
+        Add New Product
+      </Button>
+
+      <div className="grid gap-4">
+        {products.map((product: any) => (
+          <div key={product._id} className="border p-4 rounded-md shadow flex justify-between items-center">
             <div>
-              <p><strong>{p.name}</strong> (${p.price})</p>
-              <p>Category: {p.category}</p>
+              <h2 className="font-bold">{product.name}</h2>
+              <p className="text-sm text-gray-600">₹{product.price}</p>
+              <p className="text-xs text-gray-500">{product.category}</p>
             </div>
-            <Button variant="destructive" onClick={() => handleDelete(p._id)}>
-              Delete
-            </Button>
+
+            <div className="flex gap-2">
+              <Button onClick={() => navigate(`/admin/products/edit/${product._id}`)}>
+                Edit
+              </Button>
+
+              <Button variant="destructive" onClick={() => handleDelete(product._id)}>
+                Delete
+              </Button>
+            </div>
           </div>
         ))}
+
+        {products.length === 0 && (
+          <p className="text-gray-500 text-center py-10">No products available</p>
+        )}
       </div>
     </div>
   );

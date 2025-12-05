@@ -43,13 +43,26 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
+  const customToast = (msg: string) => {
+    toast.custom(() => (
+      <div className="bg-black text-yellow-400 border border-yellow-500 px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 shadow-[0_0_10px_rgba(255,255,0,0.5)]">
+        <span>⚡</span>
+        <span className="font-medium">{msg}</span>
+      </div>
+    ), { position: "bottom-right" });
+  };
+
   const fetchProducts = async () => {
     try {
       setLoading(true);
       const data = await productApi.getAll(categoryFilter !== "all" ? categoryFilter : undefined);
       setProducts(data);
+      
+      // Success toast
+      customToast("Products loaded successfully!");
+      
     } catch (error) {
-      toast.error("Failed to fetch products. Is your backend running?");
+      customToast("Failed to fetch products!");
       console.error(error);
     } finally {
       setLoading(false);
@@ -71,9 +84,11 @@ const Products = () => {
     try {
       await productApi.delete(id);
       setProducts(products.filter((p) => p._id !== id));
-      toast.success("Product deleted successfully");
+
+      customToast("Product deleted successfully!");
+
     } catch (error) {
-      toast.error("Failed to delete product");
+      customToast("Failed to delete product!");
       console.error(error);
     }
   };
@@ -136,16 +151,23 @@ const Products = () => {
                     alt={product.name}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
+
+                  {/* Hover buttons */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100">
                     <Button
                       size="icon"
                       variant="secondary"
                       className="h-9 w-9"
-                      onClick={() => navigate(`/admin/products/edit/${product._id}`)}
+                      onClick={() => {
+                        customToast("Editing product...");
+                        navigate(`/admin/products/edit/${product._id}`);
+                      }}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
+
+                    {/* Delete button */}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button size="icon" variant="destructive" className="h-9 w-9">
@@ -156,7 +178,7 @@ const Products = () => {
                         <AlertDialogHeader>
                           <AlertDialogTitle>Delete Product</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Are you sure you want to delete "{product.name}"? This action cannot be undone.
+                            Are you sure you want to delete "{product.name}"? This cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -172,20 +194,17 @@ const Products = () => {
                     </AlertDialog>
                   </div>
                 </div>
+
                 <CardContent className="p-4">
-                  <div className="mb-2 flex items-start justify-between">
-                    <h3 className="font-medium text-foreground line-clamp-1">
-                      {product.name}
-                    </h3>
-                  </div>
+                  <h3 className="font-medium text-foreground line-clamp-1">
+                    {product.name}
+                  </h3>
                   <p className="mb-3 text-sm text-muted-foreground line-clamp-2">
                     {product.description || "No description"}
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-lg font-semibold text-primary">
-                      ₹{product.price}
-                    </span>
-                  </div>
+                  <span className="font-display text-lg font-semibold text-primary">
+                    ₹{product.price}
+                  </span>
                   <Badge variant="secondary" className="mt-3 text-xs">
                     {product.category}
                   </Badge>
@@ -202,6 +221,7 @@ const Products = () => {
                 onClick={() => {
                   setSearchQuery("");
                   setCategoryFilter("all");
+                  customToast("Filters cleared!");
                 }}
               >
                 Clear filters

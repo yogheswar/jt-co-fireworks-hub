@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "sonner";
 
 // Pages
 import Index from "./pages/Index";
@@ -37,6 +38,18 @@ const App = () => (
         {/* Not found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      {/* 🔥 Toast Notification System (bottom-right popup) */}
+      <Toaster
+        position="bottom-right"
+        richColors
+        closeButton
+        expand={true}
+        duration={2500}
+        toastOptions={{
+          className: "animate-slide-up",
+        }}
+      />
     </BrowserRouter>
   </QueryClientProvider>
 );

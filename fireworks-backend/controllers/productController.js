@@ -1,3 +1,4 @@
+// controllers/productController.js
 import Product from "../models/Product.js";
 
 const allowedCategories = [
@@ -15,7 +16,12 @@ const allowedCategories = [
 export const getProducts = async (req, res) => {
   try {
     const { category } = req.query;
-    const filter = category && category !== "all" ? { category } : {};
+
+    const filter =
+      category && category.toLowerCase() !== "all"
+        ? { category: category.toLowerCase() }
+        : {};
+
     const products = await Product.find(filter);
     res.json(products);
   } catch (err) {
@@ -25,14 +31,23 @@ export const getProducts = async (req, res) => {
 
 // Add new product
 export const addProduct = async (req, res) => {
-  const { name, price, description, image, category } = req.body;
-
-  if (!allowedCategories.includes(category)) {
-    return res.status(400).json({ message: "Invalid category" });
-  }
-
   try {
-    const product = new Product({ name, price, description, image, category });
+    const { name, price, description, image, category } = req.body;
+
+    const finalCategory = category.toLowerCase();
+
+    if (!allowedCategories.includes(finalCategory)) {
+      return res.status(400).json({ message: "Invalid category" });
+    }
+
+    const product = new Product({
+      name,
+      price,
+      description,
+      image,
+      category: finalCategory,
+    });
+
     const savedProduct = await product.save();
     res.status(201).json(savedProduct);
   } catch (err) {
@@ -42,19 +57,28 @@ export const addProduct = async (req, res) => {
 
 // Update product
 export const updateProduct = async (req, res) => {
-  const { id } = req.params;
-  const { name, price, description, image, category } = req.body;
-
-  if (!allowedCategories.includes(category)) {
-    return res.status(400).json({ message: "Invalid category" });
-  }
-
   try {
+    const { id } = req.params;
+
+    let { name, price, description, image, category } = req.body;
+    const finalCategory = category.toLowerCase();
+
+    if (!allowedCategories.includes(finalCategory)) {
+      return res.status(400).json({ message: "Invalid category" });
+    }
+
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
-      { name, price, description, image, category },
+      {
+        name,
+        price,
+        description,
+        image,
+        category: finalCategory,
+      },
       { new: true }
     );
+
     res.json(updatedProduct);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -63,8 +87,9 @@ export const updateProduct = async (req, res) => {
 
 // Delete product
 export const deleteProduct = async (req, res) => {
-  const { id } = req.params;
   try {
+    const { id } = req.params;
+
     await Product.findByIdAndDelete(id);
     res.json({ message: "Product deleted successfully" });
   } catch (err) {

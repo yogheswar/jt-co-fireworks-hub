@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { productApi } from "@/lib/api";  // ✅ USE API WRAPPER
 
 const AddProduct = () => {
   const [name, setName] = useState("");
@@ -31,24 +32,16 @@ const AddProduct = () => {
     const newProduct = { name, price, description, image, category };
 
     try {
-      const res = await fetch("http://localhost:5000/api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newProduct),
-      });
+      const data = await productApi.create(newProduct);   // ✅ FIXED
 
-      const data = await res.json();
+      alert("Product added successfully!");
 
-      if (res.ok) {
-        alert("Product added successfully!");
-        setName("");
-        setPrice("");
-        setDescription("");
-        setImage("");
-        setCategory("");
-      } else {
-        alert("Failed: " + data.message);
-      }
+      setName("");
+      setPrice("");
+      setDescription("");
+      setImage("");
+      setCategory("");
+
     } catch (error) {
       console.error(error);
       alert("Error saving product");
@@ -62,22 +55,22 @@ const AddProduct = () => {
       <div className="flex flex-col gap-4">
         <div>
           <Label>Product Name</Label>
-          <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter product name" />
+          <Input value={name} onChange={(e) => setName(e.target.value)} />
         </div>
 
         <div>
           <Label>Price</Label>
-          <Input value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Enter price" type="number" />
+          <Input value={price} type="number" onChange={(e) => setPrice(e.target.value)} />
         </div>
 
         <div>
           <Label>Description</Label>
-          <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Enter description" />
+          <Input value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
 
         <div>
           <Label>Image URL</Label>
-          <Input value={image} onChange={(e) => setImage(e.target.value)} placeholder="Enter image URL" />
+          <Input value={image} onChange={(e) => setImage(e.target.value)} />
         </div>
 
         <div>

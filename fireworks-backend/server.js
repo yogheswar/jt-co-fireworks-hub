@@ -1,15 +1,21 @@
-// server.js
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./config/db.js"; // note the .js extension
-import productRoutes from "./routes/productRoutes.js"; // note the .js extension
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import productRoutes from "./routes/productRoutes.js";
 
 dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+
+// ADD THIS CORS FIX
+app.use(cors({
+  origin: "*",
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
+}));
+
 app.use(express.json());
 
 // Routes

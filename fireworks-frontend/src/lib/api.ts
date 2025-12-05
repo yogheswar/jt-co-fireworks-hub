@@ -1,6 +1,6 @@
 // 🚀 BACKEND BASE URL (Railway)
-export const BASE_URL =
-  "https://jt-co-fireworks-hub-production-ac21.up.railway.app";
+export const BASE_URL = "http://localhost:5000";
+
 
 // Categories (same for admin + frontend)
 export const ALLOWED_CATEGORIES = [

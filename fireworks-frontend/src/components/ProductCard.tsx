@@ -21,15 +21,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div
       className="group relative bg-card border border-border rounded-2xl overflow-hidden
-                 transition-all duration-700 shadow-lg hover:shadow-2xl"
+                 transition-all duration-700 shadow-lg hover:shadow-2xl h-[480px] flex flex-col"
       style={{
         transform: `perspective(1000px) rotateY(4deg) translateY(${scrollY * 0.01}px)`
       }}
     >
-      {/* IMAGE AREA */}
-      <div className="aspect-square relative overflow-hidden bg-muted">
-
-        {/* REAL PRODUCT IMAGE */}
+      {/* FIXED IMAGE HEIGHT */}
+      <div className="h-60 w-full overflow-hidden bg-muted">
         <img
           src={product.image}
           alt={product.name}
@@ -39,39 +37,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
               "https://via.placeholder.com/300?text=No+Image";
           }}
         />
-
-        {/* CATEGORY BADGE */}
         <span className="absolute top-3 left-3 bg-black/80 text-white text-xs px-3 py-1 rounded-full">
           {product.category}
         </span>
-
-        {/* GRADIENT OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
       </div>
 
       {/* CONTENT */}
-      <div className="p-5 space-y-3">
-        <div>
-          <h3 className="font-display text-lg font-semibold group-hover:text-primary transition-colors">
-            {product.name}
-          </h3>
-          <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
-            {product.description}
-          </p>
-        </div>
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="font-display text-lg font-semibold group-hover:text-primary transition-colors line-clamp-1">
+          {product.name}
+        </h3>
 
-        <div className="flex items-center justify-between">
+        {/* FIXED HEIGHT DESCRIPTION */}
+        <p className="text-muted-foreground text-sm mt-1 line-clamp-2 h-[40px]">
+          {product.description || "No description available"}
+        </p>
+
+        <div className="flex items-center justify-between mt-2">
           <span className="text-xl font-bold text-primary">₹{product.price}</span>
-
-          <span className="text-xs text-muted-foreground">
-            {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
-          </span>
         </div>
 
         <Button
           onClick={() => addToCart(product)}
           disabled={product.stock === 0}
-          className="w-full rounded-xl transition-all hover:scale-[1.03]"
+          className="w-full rounded-xl transition-all hover:scale-[1.03] mt-auto"
         >
           <ShoppingCart className="w-4 h-4 mr-2" />
           Add to Cart
