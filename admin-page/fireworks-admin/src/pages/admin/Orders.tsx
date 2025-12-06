@@ -3,32 +3,18 @@ import { Search, Eye, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from "@/components/ui/table";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from "@/components/ui/select";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger
 } from "@/components/ui/dialog";
-
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useCart } from "@/context/CartContext";
+import { Order } from "@/types";
 
 const statusColors = {
   pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
@@ -38,15 +24,16 @@ const statusColors = {
 };
 
 const Orders = () => {
-  const { orders, updateOrderStatus } = useCart(); // ⭐ LIVE ORDERS FROM CART CONTEXT
-
+  const { orders, updateOrderStatus } = useCart(); // REAL ORDERS
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
       order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.customerName.toLowerCase().includes(searchQuery.toLowerCase());
+
     const matchesStatus =
       statusFilter === "all" || order.status === statusFilter;
 
@@ -55,24 +42,26 @@ const Orders = () => {
 
   return (
     <AdminLayout title="Orders" subtitle={`Manage ${orders.length} orders`}>
-      {/* FILTERS */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center animate-fade-in">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        
+        {/* Search */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by order ID or customer..."
+            placeholder="Search order ID or name..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
           />
         </div>
 
+        {/* Filter */}
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="all">All</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="confirmed">Confirmed</SelectItem>
             <SelectItem value="delivered">Delivered</SelectItem>
@@ -82,144 +71,103 @@ const Orders = () => {
       </div>
 
       {/* TABLE */}
-      <Card className="mt-6 shadow-card border-border/50">
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Items</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
+      <Table className="mt-6">
+        <TableHeader>
+          <TableRow>
+            <TableHead>Order ID</TableHead>
+            <TableHead>Customer</TableHead>
+            <TableHead>Phone</TableHead>
+            <TableHead>Items</TableHead>
+            <TableHead>Total</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Date</TableHead>
+            <TableHead className="text-right">View</TableHead>
+          </TableRow>
+        </TableHeader>
 
-            <TableBody>
-              {filteredOrders.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell className="font-medium">{order.id}</TableCell>
-                  <TableCell>{order.customerName}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {order.customerPhone}
-                  </TableCell>
-                  <TableCell>{order.items.length} items</TableCell>
-                  <TableCell className="font-semibold">
-                    ₹{order.total}
-                  </TableCell>
+        <TableBody>
+          {filteredOrders.map((order) => (
+            <TableRow key={order.id}>
+              <TableCell className="font-medium">{order.id}</TableCell>
+              <TableCell>{order.customerName}</TableCell>
+              <TableCell>{order.customerPhone}</TableCell>
+              <TableCell>{order.items.length} items</TableCell>
+              <TableCell>₹{order.total}</TableCell>
 
-                  {/* STATUS DROPDOWN */}
-                  <TableCell>
-                    <Select
-                      value={order.status}
-                      onValueChange={(value) =>
-                        updateOrderStatus(order.id, value)
-                      }
+              <TableCell>
+                <Select
+                  value={order.status}
+                  onValueChange={(value) =>
+                    updateOrderStatus(order.id, value as Order["status"])
+                  }
+                >
+                  <SelectTrigger className="w-[130px]">
+                    <Badge className={statusColors[order.status]}>
+                      {order.status}
+                    </Badge>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="confirmed">Confirmed</SelectItem>
+                    <SelectItem value="delivered">Delivered</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
+              </TableCell>
+
+              <TableCell>
+                {new Date(order.createdAt).toLocaleDateString()}
+              </TableCell>
+
+              <TableCell className="text-right">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setSelectedOrder(order)}
                     >
-                      <SelectTrigger className="w-[130px] h-8">
-                        <Badge
-                          variant="outline"
-                          className={statusColors[order.status]}
-                        >
-                          {order.status}
-                        </Badge>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="confirmed">Confirmed</SelectItem>
-                        <SelectItem value="delivered">Delivered</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
 
-                  <TableCell className="text-muted-foreground">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </TableCell>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Order {order.id}</DialogTitle>
+                    </DialogHeader>
 
-                  <TableCell className="text-right">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </DialogTrigger>
+                    <div className="space-y-4">
+                      <p><b>Name:</b> {order.customerName}</p>
+                      <p><b>Phone:</b> {order.customerPhone}</p>
+                      <p><b>Address:</b> {order.customerAddress}</p>
+                      <p><b>Payment:</b> {order.paymentMethod}</p>
 
-                      {/* ORDER DETAILS POPUP */}
-                      <DialogContent className="max-w-lg">
-                        <DialogHeader>
-                          <DialogTitle>Order {order.id}</DialogTitle>
-                        </DialogHeader>
-
-                        <div className="space-y-4">
-                          <div>
-                            <h4 className="text-sm font-medium text-muted-foreground">
-                              Customer Details
-                            </h4>
-                            <p className="font-medium">{order.customerName}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {order.customerPhone}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {order.customerAddress}
-                            </p>
+                      <div>
+                        <h4 className="font-semibold mb-2">Items</h4>
+                        {order.items.map((item) => (
+                          <div key={item._id} className="flex justify-between mb-2">
+                            <span>{item.name} × {item.quantity}</span>
+                            <span>₹{item.price * item.quantity}</span>
                           </div>
+                        ))}
+                      </div>
 
-                          <div>
-                            <h4 className="mb-2 text-sm font-medium text-muted-foreground">
-                              Order Items
-                            </h4>
+                      <div className="font-bold text-lg">
+                        Total: ₹{order.total}
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </TableCell>
 
-                            <div className="space-y-2">
-                              {order.items.map((item) => (
-                                <div
-                                  key={item._id}
-                                  className="flex items-center justify-between bg-muted/50 p-3 rounded-lg"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <Package className="h-5 w-5 text-muted-foreground" />
-                                    <div>
-                                      <p className="font-medium">{item.name}</p>
-                                      <p className="text-sm text-muted-foreground">
-                                        Qty: {item.quantity}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <span className="font-medium">
-                                    ₹{item.price * item.quantity}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
-                          <div className="border-t pt-4 flex justify-between">
-                            <span className="font-medium">Total Amount</span>
-                            <span className="font-display text-xl font-semibold text-primary">
-                              ₹{order.total}
-                            </span>
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </TableCell>
-                </TableRow>
-              ))}
-
-              {filteredOrders.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
-                    No orders found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      {filteredOrders.length === 0 && (
+        <p className="text-center mt-10 text-muted-foreground">No orders found.</p>
+      )}
     </AdminLayout>
   );
 };
