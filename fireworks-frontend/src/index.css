@@ -1,18 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ----------------------------------
+   ROOT THEME VARIABLES
+---------------------------------- */
 @layer base {
   :root {
     --background: 240 4% 95%;
@@ -40,102 +38,14 @@
     --destructive-foreground: 0 85% 97%;
 
     --border: 240 4% 83%;
-    --input: 240 4% 83%;
     --ring: 333 71% 50%;
-
-    --radius: 1.5rem;
 
     --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
 
     --gradient-hero: linear-gradient(135deg, hsl(0 0% 5%) 0%, hsl(0 0% 15%) 50%, hsl(0 0% 8%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 98%) 100%);
-    --gradient-overlay: linear-gradient(180deg, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0.8) 100%);
-
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 4px 6px rgba(0,0,0,0.1);
     --shadow-glow: 0 0 40px hsla(0, 0%, 0%, 0.15);
-    --chart-1: 328 85% 70%;
-    --chart-2: 351 94% 71%;
-    --chart-3: 327 87% 81%;
-    --chart-4: 352 95% 81%;
-    --chart-5: 240 3% 46%;
-    --sidebar: 0 0% 98%;
-    --sidebar-foreground: 240 5% 10%;
-    --sidebar-primary: 333 71% 50%;
-    --sidebar-primary-foreground: 327 73% 97%;
-    --sidebar-accent: 240 5% 33%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 4% 83%;
-    --sidebar-ring: 333 71% 50%;
-    --font-sans: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-    --font-serif: 'Merriweather', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-    --tracking-normal: 0em;
-    --spacing: 0.25rem;
-  }
-
-  .dark {
-    --background: 240 5% 10%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 3% 15%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 5% 26%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 328 85% 70%;
-    --primary-foreground: 336 83% 17%;
-
-    --secondary: 240 3% 46%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 3% 46%;
-    --muted-foreground: 0 0% 98%;
-
-    --accent: 343 87% 15%;
-    --accent-foreground: 351 94% 71%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 85% 97%;
-
-    --border: 240 5% 33%;
-    --input: 240 5% 33%;
-    --ring: 328 85% 70%;
-    --chart-1: 327 87% 81%;
-    --chart-2: 352 95% 81%;
-    --chart-3: 328 85% 70%;
-    --chart-4: 351 94% 71%;
-    --chart-5: 240 5% 33%;
-    --sidebar: 240 3% 15%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 328 85% 70%;
-    --sidebar-primary-foreground: 336 83% 17%;
-    --sidebar-accent: 351 94% 71%;
-    --sidebar-accent-foreground: 343 87% 15%;
-    --sidebar-border: 240 5% 33%;
-    --sidebar-ring: 328 85% 70%;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
   }
 
   body {
@@ -147,170 +57,62 @@
   }
 }
 
-/* 3D Perspective utilities */
+/* ----------------------------------
+   3D EFFECTS
+---------------------------------- */
 .perspective-1000 {
   perspective: 1000px;
 }
-
-.perspective-500 {
-  perspective: 500px;
-}
-
 .transform-gpu {
   transform: translateZ(0);
   will-change: transform;
 }
 
-/* Enhanced animations */
+/* ----------------------------------
+   GENERAL ANIMATIONS
+---------------------------------- */
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
-
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
-  }
-}
-
-@keyframes float-3d {
-  0%, 100% {
-    transform: translateY(0) rotateX(0deg) rotateY(0deg);
-  }
-  25% {
-    transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
-  }
-  50% {
-    transform: translateY(-5px) rotateX(0deg) rotateY(-2deg);
-  }
-  75% {
-    transform: translateY(-15px) rotateX(-2deg) rotateY(1deg);
-  }
-}
-
 .animate-shimmer {
   animation: shimmer 3s infinite linear;
-  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.1), transparent);
+  background: linear-gradient(90deg, transparent, hsl(var(--primary)/0.1), transparent);
   background-size: 200% 100%;
 }
 
-.animate-glow {
-  animation: glow 2s infinite ease-in-out;
-}
-
-.animate-float-3d {
-  animation: float-3d 6s infinite ease-in-out;
-}
-
-@layer utilities {
-  .font-display {
-    font-family: var(--font-display);
-  }
-
-  .font-body {
-    font-family: var(--font-body);
-  }
-
-  .gradient-hero {
-    background: var(--gradient-hero);
-  }
-
-  .gradient-card {
-    background: var(--gradient-card);
-  }
-
-  .gradient-overlay {
-    background: var(--gradient-overlay);
-  }
-
-  .shadow-elegant {
-    box-shadow: var(--shadow-lg);
-  }
-
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-@layer components {
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.8s ease-out forwards;
-  }
-
-  .animate-scale-in {
-    animation: scaleIn 0.5s ease-out forwards;
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
+/* Float / Glow (Reusable) */
 @keyframes float {
-  0%, 100% {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ----------------------------------
+   PAGE ENTRY ANIMATION (MAIN)
+---------------------------------- */
+.page-fade-in {
+  animation: pageFade 0.9s ease-out forwards;
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    filter: brightness(0.5);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1);
     transform: translateY(0);
   }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-/* Global page load fade-in */
-.page-fade {
-  animation: fadeInPage 0.7s ease;
 }
 
-@keyframes fadeInPage {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Logo click animation */
+/* ----------------------------------
+   LOGO CLICK ANIMATION
+---------------------------------- */
 .logo-animate {
   animation: rotateGlow 0.6s ease forwards;
 }
@@ -327,5 +129,206 @@
   100% {
     transform: rotate(0deg) scale(1);
     filter: drop-shadow(0 0 0px #f97316);
+  }
+}
+
+/* ----------------------------------
+   REUSABLE EFFECT CLASSES
+---------------------------------- */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+/* === GLOBAL CURVED UI STYLING (APPLY TO ALL BLOCKS) === */
+
+/* Apply curves only to main components, NOT everything */
+.card,
+.bg-card,
+.product-card,
+.admin-card,
+button,
+input,
+textarea,
+select,
+.section,
+.wrapper,
+.box,
+.block,
+.container {
+  border-radius: 14px;
+}
+
+
+/* Prevent images from getting weird curves */
+img {
+  border-radius: 12px;
+}
+
+/* Sections */
+section,
+.container,
+.wrapper,
+.box,
+.block {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Cards */
+.card,
+.bg-card,
+.product-card,
+.admin-card {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+
+/* Navbar dropdown */
+.menu,
+.dropdown {
+  border-radius: 18px;
+}
+
+/* Buttons */
+button,
+.btn,
+.btn-primary,
+.btn-secondary {
+  border-radius: 12px !important;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  border-radius: 10px !important;
+}
+
+/* Smooth shadow for curved blocks */
+.block,
+.card,
+.section-block {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Hero section rounded bottom */
+.hero-section {
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  overflow: hidden;
+}
+
+/* Product page card shadow + curve */
+.product-card {
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+}
+
+/* Cart item block clean curve */
+.cart-item {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #e2e2e2;
+}
+
+/* Order summary box */
+.order-summary {
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+/* Footer curve (top only) */
+.footer {
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  overflow: hidden;
+}
+
+/* Global page fade-in animation */
+.page-fade-in {
+  animation: fadeInPage 0.9s ease-out forwards;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: brightness(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: brightness(1);
+  }
+}
+.no-curve-gallery * {
+  border-radius: 0 !important;
+}
+/* Slide-in on mount */
+@keyframes cartSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cart-item-animate {
+  animation: cartSlideIn 0.45s ease forwards;
+}
+
+/* Fade-out animation (applied on delete) */
+@keyframes cartFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.cart-item-removing {
+  animation: cartFadeOut 0.35s ease forwards;
+}
+
+/* Scale effect when quantity changes */
+.cart-quantity-bump {
+  animation: bump 0.25s ease;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
   }
 }

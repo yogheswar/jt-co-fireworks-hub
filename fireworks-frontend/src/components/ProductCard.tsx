@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { ShoppingCart } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
@@ -23,11 +24,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
       className="group relative bg-card border border-border rounded-2xl overflow-hidden
                  transition-all duration-700 shadow-lg hover:shadow-2xl h-[480px] flex flex-col"
       style={{
-        transform: `perspective(1000px) rotateY(4deg) translateY(${scrollY * 0.01}px)`
+        transform: `perspective(1000px) translateY(${scrollY * 0.01}px)`
       }}
     >
-      {/* FIXED IMAGE HEIGHT */}
-      <div className="h-60 w-full overflow-hidden bg-muted">
+      {/* IMAGE */}
+      <div className="h-60 w-full overflow-hidden bg-muted relative">
         <img
           src={product.image}
           alt={product.name}
@@ -37,6 +38,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
               "https://via.placeholder.com/300?text=No+Image";
           }}
         />
+
+        {/* CATEGORY BADGE */}
         <span className="absolute top-3 left-3 bg-black/80 text-white text-xs px-3 py-1 rounded-full">
           {product.category}
         </span>
@@ -48,19 +51,23 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {product.name}
         </h3>
 
-        {/* FIXED HEIGHT DESCRIPTION */}
         <p className="text-muted-foreground text-sm mt-1 line-clamp-2 h-[40px]">
           {product.description || "No description available"}
         </p>
 
         <div className="flex items-center justify-between mt-2">
-          <span className="text-xl font-bold text-primary">₹{product.price}</span>
+          <span className="text-xl font-bold text-primary">
+            ₹{product.price}
+          </span>
         </div>
 
+        {/* ADD TO CART BUTTON WITH TOAST */}
         <Button
-          onClick={() => addToCart(product)}
-          disabled={product.stock === 0}
-          className="w-full rounded-xl transition-all hover:scale-[1.03] mt-auto"
+          onClick={() => {
+            addToCart(product);
+            toast.success(`${product.name} added to cart`);
+          }}
+          className="w-full mt-auto rounded-xl transition-all hover:scale-[1.03]"
         >
           <ShoppingCart className="w-4 h-4 mr-2" />
           Add to Cart

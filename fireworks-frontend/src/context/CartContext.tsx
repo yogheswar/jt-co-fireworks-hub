@@ -1,6 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { CartItem, Product, Order } from '@/types';
-import { toast } from '@/hooks/use-toast';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { CartItem, Product, Order } from "@/types";
+import { toast } from "@/hooks/use-toast";
 
 interface CartContextType {
   cart: CartItem[];
@@ -11,97 +17,115 @@ interface CartContextType {
   clearCart: () => void;
   getCartTotal: () => number;
   getCartCount: () => number;
-  placeOrder: (customerInfo: { name: string; phone: string; address: string }) => void;
-  updateOrderStatus: (orderId: string, status: Order['status']) => void;
+  placeOrder: (customerInfo: {
+    name: string;
+    phone: string;
+    address: string;
+    paymentMethod: string;
+  }) => void;
+  updateOrderStatus: (orderId: string, status: Order["status"]) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('jt-cart');
+    const saved = localStorage.getItem("jt-cart");
     return saved ? JSON.parse(saved) : [];
   });
 
   const [orders, setOrders] = useState<Order[]>(() => {
-    const saved = localStorage.getItem('jt-orders');
+    const saved = localStorage.getItem("jt-orders");
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('jt-cart', JSON.stringify(cart));
+    localStorage.setItem("jt-cart", JSON.stringify(cart));
   }, [cart]);
 
   useEffect(() => {
-    localStorage.setItem('jt-orders', JSON.stringify(orders));
+    localStorage.setItem("jt-orders", JSON.stringify(orders));
   }, [orders]);
 
   const addToCart = (product: Product) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find((item) => item._id === product._id);
+
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id
+          item._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
+
       return [...prev, { ...product, quantity: 1 }];
     });
+
     toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
+      title: "Added to Cart",
+      description: `${product.name} added to your cart.`,
     });
   };
 
   const removeFromCart = (productId: string) => {
-    setCart((prev) => prev.filter((item) => item.id !== productId));
+    setCart((prev) => prev.filter((item) => item._id !== productId));
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
+    if (quantity <= 0) return removeFromCart(productId);
+
     setCart((prev) =>
       prev.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
+        item._id === productId ? { ...item, quantity } : item
       )
     );
   };
 
-  const clearCart = () => {
-    setCart([]);
-  };
+  const clearCart = () => setCart([]);
 
-  const getCartTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+  const getCartTotal = () =>
+    cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
-  const getCartCount = () => {
-    return cart.reduce((count, item) => count + item.quantity, 0);
-  };
+  const getCartCount = () =>
+    cart.reduce((count, item) => count + item.quantity, 0);
 
-  const placeOrder = (customerInfo: { name: string; phone: string; address: string }) => {
+  /* FIXED PLACE ORDER */
+  const placeOrder = (customerInfo: {
+    name: string;
+    phone: string;
+    address: string;
+    paymentMethod: string;
+  }) => {
     const newOrder: Order = {
       id: `ORD-${Date.now()}`,
       customerName: customerInfo.name,
       customerPhone: customerInfo.phone,
       customerAddress: customerInfo.address,
+      paymentMethod: customerInfo.paymentMethod,
+      paymentStatus:
+        customerInfo.paymentMethod === "online" ? "unpaid" : "cod",
       items: [...cart],
       total: getCartTotal(),
-      status: 'pending',
+      status: "pending",
       createdAt: new Date(),
     };
+
     setOrders((prev) => [newOrder, ...prev]);
-    clearCart();
+
+    // ⭐ IMPORTANT ⭐
+    // Clear ONLY for Cash On Delivery
+    if (customerInfo.paymentMethod === "cod") {
+      clearCart();
+    }
+
     toast({
-      title: "Order Placed!",
-      description: `Your order ${newOrder.id} has been placed successfully.`,
+      title: "Order Created!",
+      description: `Order ${newOrder.id} created successfully.`,
     });
   };
 
-  const updateOrderStatus = (orderId: string, status: Order['status']) => {
+  const updateOrderStatus = (orderId: string, status: Order["status"]) => {
     setOrders((prev) =>
       prev.map((order) =>
         order.id === orderId ? { ...order, status } : order
@@ -130,9 +154,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be used inside CartProvider");
+  return ctx;
 };

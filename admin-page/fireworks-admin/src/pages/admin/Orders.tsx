@@ -3,7 +3,7 @@ import { Search, Eye, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -26,10 +26,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
+
 import AdminLayout from "@/components/admin/AdminLayout";
-import { mockOrders } from "@/data/mockData";
-import { Order } from "@/types";
+import { useCart } from "@/context/CartContext";
 
 const statusColors = {
   pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
@@ -39,10 +38,10 @@ const statusColors = {
 };
 
 const Orders = () => {
-  const [orders, setOrders] = useState<Order[]>(mockOrders);
+  const { orders, updateOrderStatus } = useCart(); // ⭐ LIVE ORDERS FROM CART CONTEXT
+
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
@@ -50,21 +49,13 @@ const Orders = () => {
       order.customerName.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus =
       statusFilter === "all" || order.status === statusFilter;
+
     return matchesSearch && matchesStatus;
   });
 
-  const updateOrderStatus = (orderId: string, newStatus: Order["status"]) => {
-    setOrders(
-      orders.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-      )
-    );
-    toast.success(`Order ${orderId} status updated to ${newStatus}`);
-  };
-
   return (
     <AdminLayout title="Orders" subtitle={`Manage ${orders.length} orders`}>
-      {/* Filters */}
+      {/* FILTERS */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center animate-fade-in">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -75,6 +66,7 @@ const Orders = () => {
             className="pl-10"
           />
         </div>
+
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by status" />
@@ -89,7 +81,7 @@ const Orders = () => {
         </Select>
       </div>
 
-      {/* Orders Table */}
+      {/* TABLE */}
       <Card className="mt-6 shadow-card border-border/50">
         <CardContent className="p-0">
           <Table>
@@ -105,6 +97,7 @@ const Orders = () => {
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
+
             <TableBody>
               {filteredOrders.map((order) => (
                 <TableRow key={order.id}>
@@ -115,13 +108,15 @@ const Orders = () => {
                   </TableCell>
                   <TableCell>{order.items.length} items</TableCell>
                   <TableCell className="font-semibold">
-                    ₹{order.total.toLocaleString()}
+                    ₹{order.total}
                   </TableCell>
+
+                  {/* STATUS DROPDOWN */}
                   <TableCell>
                     <Select
                       value={order.status}
                       onValueChange={(value) =>
-                        updateOrderStatus(order.id, value as Order["status"])
+                        updateOrderStatus(order.id, value)
                       }
                     >
                       <SelectTrigger className="w-[130px] h-8">
@@ -140,26 +135,25 @@ const Orders = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
+
                   <TableCell className="text-muted-foreground">
-                    {order.createdAt.toLocaleDateString()}
+                    {new Date(order.createdAt).toLocaleDateString()}
                   </TableCell>
+
                   <TableCell className="text-right">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setSelectedOrder(order)}
-                        >
+                        <Button variant="ghost" size="icon">
                           <Eye className="h-4 w-4" />
                         </Button>
                       </DialogTrigger>
+
+                      {/* ORDER DETAILS POPUP */}
                       <DialogContent className="max-w-lg">
                         <DialogHeader>
-                          <DialogTitle className="font-display">
-                            Order {order.id}
-                          </DialogTitle>
+                          <DialogTitle>Order {order.id}</DialogTitle>
                         </DialogHeader>
+
                         <div className="space-y-4">
                           <div>
                             <h4 className="text-sm font-medium text-muted-foreground">
@@ -173,15 +167,17 @@ const Orders = () => {
                               {order.customerAddress}
                             </p>
                           </div>
+
                           <div>
                             <h4 className="mb-2 text-sm font-medium text-muted-foreground">
                               Order Items
                             </h4>
+
                             <div className="space-y-2">
                               {order.items.map((item) => (
                                 <div
-                                  key={item.id}
-                                  className="flex items-center justify-between rounded-lg bg-muted/50 p-3"
+                                  key={item._id}
+                                  className="flex items-center justify-between bg-muted/50 p-3 rounded-lg"
                                 >
                                   <div className="flex items-center gap-3">
                                     <Package className="h-5 w-5 text-muted-foreground" />
@@ -193,16 +189,17 @@ const Orders = () => {
                                     </div>
                                   </div>
                                   <span className="font-medium">
-                                    ₹{(item.price * item.quantity).toLocaleString()}
+                                    ₹{item.price * item.quantity}
                                   </span>
                                 </div>
                               ))}
                             </div>
                           </div>
-                          <div className="flex items-center justify-between border-t pt-4">
+
+                          <div className="border-t pt-4 flex justify-between">
                             <span className="font-medium">Total Amount</span>
                             <span className="font-display text-xl font-semibold text-primary">
-                              ₹{order.total.toLocaleString()}
+                              ₹{order.total}
                             </span>
                           </div>
                         </div>
@@ -211,16 +208,18 @@ const Orders = () => {
                   </TableCell>
                 </TableRow>
               ))}
+
+              {filteredOrders.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                    No orders found
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
-
-      {filteredOrders.length === 0 && (
-        <div className="mt-12 text-center">
-          <p className="text-lg text-muted-foreground">No orders found</p>
-        </div>
-      )}
     </AdminLayout>
   );
 };

@@ -8,7 +8,9 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
+import { useCart } from "@/context/CartContext";  // ⭐ ADDED
 
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
@@ -21,9 +23,13 @@ const navItems = [
 const AdminSidebar = () => {
   const location = useLocation();
 
+  // ⭐ LIVE ORDERS COUNT FROM CONTEXT
+  const { orders } = useCart();
+
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-sidebar border-r border-sidebar-border">
       <div className="flex h-full flex-col">
+        
         {/* Logo */}
         <div className="flex items-center gap-3 border-b border-sidebar-border px-6 py-5">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg gradient-primary">
@@ -40,22 +46,34 @@ const AdminSidebar = () => {
         {/* Navigation */}
         <nav className="flex-1 space-y-1 px-3 py-4">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path || 
-              (item.path === "/admin/products" && location.pathname.startsWith("/admin/products"));
-            
+            const isActive =
+              location.pathname === item.path ||
+              (item.path === "/admin/products" &&
+                location.pathname.startsWith("/admin/products"));
+
             return (
               <NavLink
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200",
+                  "flex items-center justify-between rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200",
                   isActive
                     ? "bg-sidebar-accent text-sidebar-primary"
                     : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
-                <item.icon className="h-5 w-5" />
-                {item.label}
+                {/* LEFT ICON + LABEL */}
+                <div className="flex items-center gap-3">
+                  <item.icon className="h-5 w-5" />
+                  {item.label}
+                </div>
+
+                {/* ⭐ ONLY FOR ORDERS → SHOW BADGE */}
+                {item.label === "Orders" && orders.length > 0 && (
+                  <span className="bg-primary text-white text-xs px-2 py-0.5 rounded-full">
+                    {orders.length}
+                  </span>
+                )}
               </NavLink>
             );
           })}

@@ -18,17 +18,19 @@ const Navbar = () => {
       <div className="w-full px-4">
         <div className="relative flex items-center justify-between h-12 md:h-20">
 
-          {/* 🔥 JT&Co Logo - Reloads Entire Website */}
-          <span
-            onClick={() => window.location.reload()}
+          {/* 🔥 JT&Co Logo - Smart Reload */}
+          <Link
+            to="/"
+            onClick={() => {
+              if (location.pathname === "/") window.location.reload();
+            }}
             className="flex items-center gap-2 cursor-pointer z-20"
           >
             <Sparkles className="w-5 h-5 md:w-7 md:h-7 text-foreground" />
             <span className="font-display text-lg md:text-2xl font-bold">
               JT&Co
             </span>
-          </span>
-
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex gap-10 absolute left-1/2 -translate-x-1/2">
@@ -67,7 +69,6 @@ const Navbar = () => {
               Contact
             </a>
           </div>
-
 
           {/* RIGHT SIDE BUTTONS */}
           <div className="flex items-center gap-3 z-20">
@@ -112,7 +113,15 @@ const Navbar = () => {
           <div className="md:hidden w-full border-t border-border px-4 py-4 bg-background">
             <div className="flex flex-col gap-3">
 
-              <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
+              <Link
+                to="/"
+                onClick={() => {
+                  if (location.pathname === "/") window.location.reload();
+                  setIsOpen(false);
+                }}
+              >
+                Home
+              </Link>
 
               <a href="#about" onClick={() => setIsOpen(false)}>About</a>
 
@@ -128,7 +137,9 @@ const Navbar = () => {
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
               >
-                <Button variant="outline" size="sm" className="w-full">Admin Dashboard</Button>
+                <Button variant="outline" size="sm" className="w-full">
+                  Admin Dashboard
+                </Button>
               </a>
             </div>
           </div>
